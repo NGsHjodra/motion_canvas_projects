@@ -9,7 +9,9 @@ export default makeScene2D(function* (view) {
   const txts: Txt[] = [];
   const txts_alphabet: Txt[] = [];
 
-  view.fill('#242424');
+  const bg = '#141414'
+
+  view.fill(bg);
 
   let hidden_word = "WHIRL";
 
@@ -31,7 +33,7 @@ export default makeScene2D(function* (view) {
         y={300}
         fill={'#ffffff'}
         fontSize={50}
-        stroke={'#242424'}
+        stroke={bg}
         offset={-1}
         text={keystrokes[i]}
         alignItems={'center'}
@@ -67,7 +69,7 @@ export default makeScene2D(function* (view) {
         radius={10}
         width={size}
         height={size}
-        fill='#242424'
+        fill={bg}
       />
     ))
   )
@@ -100,7 +102,7 @@ export default makeScene2D(function* (view) {
         y={-(12 / 2 * alp_gap) + i % 13 * alp_gap}
         fontSize={45}
         fontFamily={'Comic Sans MS'}
-        fill={'#ffffff'}
+        fill='#ffffff'
         text={alphabets[i]}
         alignItems={'center'}
         alignContent={'center'}
@@ -115,41 +117,46 @@ export default makeScene2D(function* (view) {
   for (let stroke of keystrokes) {
     if (stroke === "Enter") {
       if (hidden_word.includes(txts[walk - 5 - other].text())) {
-        // debug(`stroke = ${txts[walk - 5 - other].text()} hidden_word[0] = ${hidden_word[0]} other = ${other} walk = ${walk}`)
         if (txts[walk - 5 - other].text() === hidden_word[0]) {
           yield* all(
             rects[walk - 5 - other].fill('#20b2a0', short_w),
             txts_side[walk].opacity(1, short_w),
+            txts_alphabet[char_to_num(txts[walk - 5 - other].text())].fill('#20b2a0', short_w),
           )
         } else {
           yield* all(
             rects[walk - 5 - other].fill('#FFBF00', short_w),
             txts_side[walk].opacity(1, short_w),
+            txts_alphabet[char_to_num(txts[walk - 5 - other].text())].fill('#20b2a0', short_w),
           )
         }
       } else {
         yield* all(
-          rects[walk - 5 - other].fill('#244444', short_w),
+          rects[walk - 5 - other].fill('#242444', short_w),
           txts_side[walk].opacity(1, short_w),
+          txts_alphabet[char_to_num(txts[walk - 5 - other].text())].opacity(0.3, short_w),
         )
       }
       if (hidden_word.includes(txts[walk - 5 + 1 - other].text())) {
         if (txts[walk - 5 + 1 - other].text() === hidden_word[1]) {
           yield* all(
             rects[walk - 5 + 1 - other].fill('#20b2a0', short_w),
+            txts_alphabet[char_to_num(txts[walk - 5 + 1 - other].text())].fill('#20b2a0', short_w),
             txts_side[walk].opacity(0, short_w),
             txts_side[walk].y(-100, short_w),
           )
         } else {
           yield* all(
             rects[walk - 5 + 1 - other].fill('#FFBF00', short_w),
+            txts_alphabet[char_to_num(txts[walk - 5 + 1 - other].text())].fill('#20b2a0', short_w),
             txts_side[walk].opacity(0, short_w),
             txts_side[walk].y(-100, short_w),
           )
         }
       } else {
         yield* all(
-          rects[walk - 5 + 1 - other].fill('#244444', 1),
+          rects[walk - 5 + 1 - other].fill('#242444', 1),
+          txts_alphabet[char_to_num(txts[walk - 5 + 1 - other].text())].opacity(0.3, short_w),
           txts_side[walk].opacity(0, short_w),
           txts_side[walk].y(-100, short_w),
         )
@@ -159,16 +166,18 @@ export default makeScene2D(function* (view) {
           if (txts[walk - 5 + i - other].text() === hidden_word[i]) {
             yield* all(
               rects[walk - 5 + i - other].fill('#20b2a0', short_w),
+              txts_alphabet[char_to_num(txts[walk - 5 + i - other].text())].fill('#20b2a0', short_w),
             )
           } else {
             yield* all(
               rects[walk - 5 + i - other].fill('#FFBF00', short_w),
-              
+              txts_alphabet[char_to_num(txts[walk - 5 + i - other].text())].fill('#20b2a0', short_w),
             )
           }
         } else {
           yield* all(
-            rects[walk - 5 + i - other].fill('#244444', short_w),
+            rects[walk - 5 + i - other].fill('#242444', short_w),
+            txts_alphabet[char_to_num(txts[walk - 5 + i - other].text())].opacity(0.3, short_w),
           )
         }
       }
@@ -200,3 +209,7 @@ export default makeScene2D(function* (view) {
     walk++;
   }
 });
+
+function char_to_num(char: string) {
+  return char.charCodeAt(0) - 65;
+}
