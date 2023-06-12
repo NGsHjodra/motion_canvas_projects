@@ -10,6 +10,7 @@ export default defineConfig({
         './src/projects/ngs_spline.ts',
         './src/projects/insertion_sort.ts',
         './src/projects/testing.ts',
+        './src/projects/wordle.ts',
       ],
     }),
     ffmpeg(),
