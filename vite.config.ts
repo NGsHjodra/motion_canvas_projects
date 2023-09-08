@@ -7,7 +7,8 @@ export default defineConfig({
     motionCanvas({
       project: [
         './src/projects/testing.ts',
-        './src/projects/sunrise_problem.ts',
+        './src/projects/radix_sort.ts',
+        './src/projects/count_sort.ts',
       ],
     }),
     ffmpeg(),
